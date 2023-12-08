@@ -1,12 +1,11 @@
 import type { InputTable } from "@/core"
 import type { Ref } from "vue"
-import { generateReport } from "./generateReport"
 
 
 export function useLatexExport(table: Ref<InputTable>) {
   return {
-    export: () => {
-      const blob = new Blob([createLatex(table.value)], { type: 'text/latex' })
+    export: async () => {
+      const blob = new Blob([await createLatex(table.value)], { type: 'text/latex' })
       const url = URL.createObjectURL(blob)
 
       const link = document.createElement('a')
@@ -103,7 +102,9 @@ function generateTable(data: string[][], options?: { caption?: string, align?: s
   return res
 }
 
-function createLatex(table: InputTable) {
+async function createLatex(table: InputTable) {
+  const { generateReport } = await import('./generateReport')
+
   const report = `
 \\documentclass[a4paper,12pt]{article}
 \\usepackage[left=2.0cm, right=2.0cm, top=2.5cm, bottom=2.5cm]{geometry}

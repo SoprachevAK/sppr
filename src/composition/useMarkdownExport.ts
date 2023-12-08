@@ -1,13 +1,10 @@
 import type { InputTable, toPlacedTableFormat } from "@/core"
 import type { Ref } from "vue"
 
-import { markdownTable } from 'markdown-table'
-import { generateReport } from "./generateReport"
-
 export function useMarkdownExport(table: Ref<InputTable>) {
   return {
-    export: () => {
-      const blob = new Blob([createMarkdown(table.value)], { type: 'text/markdown' })
+    export: async () => {
+      const blob = new Blob([await createMarkdown(table.value)], { type: 'text/markdown' })
       const url = URL.createObjectURL(blob)
 
       const link = document.createElement('a')
@@ -68,7 +65,10 @@ function code(strings: TemplateStringsArray, ...values: any[]) {
   return `\`${getString(strings, values)}\``
 }
 
-function createMarkdown(table: InputTable) {
+async function createMarkdown(table: InputTable) {
+  const { markdownTable } = await import('markdown-table')
+  const { generateReport } = await import('./generateReport')
+
   return generateReport(table, {
     h1, h2, h3, h4, b, code, list, generateTable: markdownTable
   })
