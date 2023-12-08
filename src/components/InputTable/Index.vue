@@ -155,6 +155,7 @@ function removeRow(i: number) {
 
       th {
         display: flex;
+        position: relative;
 
         .remove {
           left: -25px;
