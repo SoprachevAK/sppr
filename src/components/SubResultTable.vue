@@ -55,7 +55,7 @@ const props = defineProps<{
 
     tbody {
       tr.highlight {
-        background-color: #393939;
+        background-color: var(--table-highlight);
       }
 
       th {

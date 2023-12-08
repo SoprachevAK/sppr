@@ -9,11 +9,11 @@
           </th>
           <th>Вес</th>
           <th v-for="(name, i) in props.names">
-            <button class="remove" @click="removeColumn(i)">+</button>
+            <button class="remove prevent-select" @click="removeColumn(i)">+</button>
             <input type="text" :value="name" @input="e => changeName(i, e)" />
           </th>
 
-          <button class="add" @click="addColumn">+</button>
+          <button class="add prevent-select" @click="addColumn">+</button>
         </tr>
       </thead>
 
@@ -23,7 +23,7 @@
             <button class="asc-desc-btn" @click="clickOrder(criteriaI)">{{ props.order[criteriaI] == 'asc' ? '↑' : '↓'
             }}</button>
             <input class="criteria" type="text" :value="criteria" @input="e => changeCriteria(criteriaI, e)" />
-            <button class="remove" @click="removeRow(criteriaI)">+</button>
+            <button class="remove prevent-select" @click="removeRow(criteriaI)">+</button>
           </th>
           <td>
             <input type="number" min="0" max="10" step="0.1" :value="props.weights[criteriaI]"
@@ -34,7 +34,7 @@
           </td>
         </tr>
 
-        <button class="add add-row" @click="addRow">+</button>
+        <button class="add add-row prevent-select" @click="addRow">+</button>
       </tbody>
     </table>
 
@@ -199,10 +199,14 @@ function removeRow(i: number) {
 
     transition: 0.2s;
     margin-top: -3px;
+
+    color: rgba(255, 255, 255, 0.1);
+    @media (prefers-color-scheme: light) {
+      color: rgba(0, 0, 0, 0.15);
+    }
   }
 
   .remove {
-    color: rgba(255, 255, 255, 0.1);
     transform: translate(-50%) rotate(45deg);
 
     &:hover {
@@ -211,8 +215,6 @@ function removeRow(i: number) {
   }
 
   .add {
-    color: rgba(255, 255, 255, 0.1);
-
     &:hover {
       color: rgb(50, 236, 50);
     }
@@ -237,7 +239,6 @@ function removeRow(i: number) {
   }
 
   .export {
-    // cursor: pointer;
     color: inherit;
     padding: 3px 7px;
     border-radius: 5px;
@@ -253,5 +254,11 @@ function removeRow(i: number) {
   margin: 5px;
   margin: 3px;
   background: none;
+  transition: 0.1s;
+
+  &:hover {
+    background: none;
+    color: var(--hover-color);
+  }
 }
 </style>

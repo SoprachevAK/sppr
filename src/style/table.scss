@@ -7,7 +7,7 @@
   thead {
     th {
       border-top: $border;
-      border-bottom: 3px solid $border-color;
+      border-bottom: 2px solid $border-color;
     }
   }
 
@@ -21,7 +21,7 @@
   tr th:first-child,
   tr td:first-child {
     border-left: $border;
-    border-right: 3px solid $border-color;
+    border-right: 2px solid $border-color;
   }
 
   thead {
@@ -43,13 +43,12 @@
       border-bottom-right-radius: $radius;
     }
   }
-
 }
 
 @mixin table-oscillator {
   tbody {
     tr:nth-child(even) {
-      background-color: #393939;
+      background-color: var(--table-highlight);
     }
   }
 }
