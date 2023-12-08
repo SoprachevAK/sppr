@@ -141,8 +141,8 @@ export function generateReport(table: InputTable, style: {
     l`${h3`Нормализованные веса`}`
     l`Для корректной работы алгоритма веса критериев были нормализованы.`
 
-    l`${list(table.names.map((name, i) =>
-      `${b`${name}`} - ${normalizedWeights[i].toLocalFixed(2)}`))}`
+    l`${list(table.criterias.map((criteria, i) =>
+      `${b`${criteria}`} - ${normalizedWeights[i].toLocalFixed(2)}`))}`
   }
 
   l`${h2`Ход решения`}`

@@ -21,7 +21,7 @@
       <Collapsable name="Нормализированные веса">
         <ul>
           <li v-for="(weight, i) in normalizedWeights">
-            <b>{{ table.names[i] }}</b> - {{ weight.toLocalFixed(2) }}
+            <b>{{ table.criterias[i] }}</b> - {{ weight.toLocalFixed(2) }}
           </li>
         </ul>
       </Collapsable>
