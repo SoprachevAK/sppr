@@ -11,7 +11,7 @@ app
     console.error(err, vm, info)
 
     localStorage.clear()
-    window.location.reload()
+    // window.location.reload()
   }
 
 app.mount('#app')

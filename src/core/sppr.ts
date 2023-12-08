@@ -1,4 +1,4 @@
-import { toPlacedTableFormat, type InputTable, type Order } from '.';
+import { toPlacedTableFormat, type InputTable, type Order, validateInputTable } from '.';
 import { createBinaryRelationshipMatrix } from './createBinaryRelationshipMatrix';
 import { dominate } from './dominate';
 import { block } from './block';
@@ -8,6 +8,24 @@ import { kmax, toTable as kmaxToTable, finalKmax } from './kmax';
 
 
 export function sppr(table: InputTable) {
+
+  if (validateInputTable(table) !== true) {
+    return {
+      normalizedWeights: [],
+      binaryRelationship: [],
+      dominateResult: [],
+      blockResult: [],
+      tournamentResult: [],
+      kMax: [],
+      finalKmaxResult: [],
+      dominateTableResult: [],
+      blockTableResult: [],
+      tournamentTableResult: [],
+      kmaxTableResult: [],
+      finalResult: [],
+      finalBestResult: []
+    }
+  }
 
   const normalizedWeights = normalizeWeights(table)
   const binaryRelationship = createBinaryRelationshipMatrix(table)
@@ -24,8 +42,7 @@ export function sppr(table: InputTable) {
 
 
   const score = (place: number) => table.names.length - place
-
-  const finalResult = table.criterias
+  const finalResult = table.names
     .map((_, i) => [
       score(dominateTableResult[i].place),
       score(blockTableResult[i].place),

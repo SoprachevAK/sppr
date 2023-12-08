@@ -99,12 +99,14 @@ function addRow() {
   props.criterias.push('')
   props.weights.push(0)
   props.values.push(props.names.map(() => 0))
+  props.order.push('asc')
 }
 
 function removeRow(i: number) {
   props.criterias.splice(i, 1)
   props.weights.splice(i, 1)
   props.values.splice(i, 1)
+  props.order.splice(i, 1)
 }
 
 
@@ -126,11 +128,17 @@ function removeRow(i: number) {
     th {
       padding: 8px;
       position: relative;
+      min-width: 113px;
 
       .remove {
         top: -25px;
         left: 50%;
       }
+    }
+
+    th:first-child {
+      min-width: 243px;
+      height: 42px;
     }
   }
 
