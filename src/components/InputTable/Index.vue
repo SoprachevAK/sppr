@@ -196,11 +196,13 @@ function removeRow(i: number) {
     background: none;
     font-weight: 800;
     font-size: 20px;
+    cursor: pointer;
 
     transition: 0.2s;
     margin-top: -3px;
 
     color: rgba(255, 255, 255, 0.1);
+
     @media (prefers-color-scheme: light) {
       color: rgba(0, 0, 0, 0.15);
     }
