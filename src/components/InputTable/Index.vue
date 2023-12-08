@@ -12,8 +12,7 @@
             <button class="remove prevent-select" @click="removeColumn(i)">+</button>
             <input type="text" :value="name" @input="e => changeName(i, e)" />
           </th>
-
-          <button class="add prevent-select" @click="addColumn">+</button>
+          <button class="add add-column prevent-select" @click="addColumn">+</button>
         </tr>
       </thead>
 
@@ -131,7 +130,7 @@ function removeRow(i: number) {
       min-width: 113px;
 
       .remove {
-        top: -25px;
+        top: -32px;
         left: 50%;
       }
     }
@@ -139,6 +138,10 @@ function removeRow(i: number) {
     th:first-child {
       min-width: 243px;
       height: 42px;
+    }
+
+    tr {
+      position: relative;
     }
   }
 
@@ -158,7 +161,7 @@ function removeRow(i: number) {
         position: relative;
 
         .remove {
-          left: -25px;
+          left: -32px;
           top: 50%;
           transform: translateY(-50%) rotate(45deg);
         }
@@ -206,6 +209,7 @@ function removeRow(i: number) {
     font-weight: 800;
     font-size: 20px;
     cursor: pointer;
+    padding: 6px 10px;
 
     transition: 0.2s;
     margin-top: -3px;
@@ -225,6 +229,11 @@ function removeRow(i: number) {
     }
   }
 
+  .add-column {
+    right: -30px;
+    top: 5px;
+  }
+
   .add {
     &:hover {
       color: rgb(50, 236, 50);
@@ -232,8 +241,7 @@ function removeRow(i: number) {
   }
 
   .add-row {
-    bottom: -25px;
-    left: 100;
+    bottom: -32px;
     transform: translate(-50%);
   }
 
@@ -266,6 +274,7 @@ function removeRow(i: number) {
   margin: 3px;
   background: none;
   transition: 0.1s;
+  color: inherit;
 
   &:hover {
     background: none;

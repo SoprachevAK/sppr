@@ -141,7 +141,7 @@ const defaulTable: InputTable = {
     [2008, 2009, 2009],
     [170000, 140000, 150000],
   ],
-  order: ['asc', 'asc', 'asc']
+  order: ['desc', 'asc', 'desc']
 }
 
 const spprReactive = reactify(sppr)
