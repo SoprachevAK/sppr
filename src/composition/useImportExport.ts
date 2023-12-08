@@ -15,11 +15,19 @@ export function useImportExport(table: Ref<InputTable>) {
         const text = e.target?.result as string
         const lines = text.split('\n')
 
+        if (lines.length < 5) return
+
         const names = lines[0].split(',')
         const criterias = lines[1].split(',')
         const order = lines[2].split(',')
         const weights = lines[3].split(',').map(Number)
         const values = lines.slice(4).map(line => line.split(',').map(Number))
+
+        if (criterias.length != order.length ||
+          criterias.length != weights.length ||
+          criterias.length != values.length) return
+
+        if (values.some(row => row.length != names.length)) return
 
         table.value = {
           names,
