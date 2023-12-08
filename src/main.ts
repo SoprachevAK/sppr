@@ -3,5 +3,15 @@ import './style/style.scss'
 import App from './App.vue'
 import { } from './utils/index'
 
-createApp(App)
-  .mount('#app')
+const app = createApp(App)
+
+app
+  .config
+  .errorHandler = (err, vm, info) => {
+    console.error(err, vm, info)
+
+    localStorage.clear()
+    window.location.reload()
+  }
+
+app.mount('#app')
