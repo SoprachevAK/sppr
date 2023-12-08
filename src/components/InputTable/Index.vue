@@ -263,7 +263,7 @@ function removeRow(i: number) {
     border-radius: 5px;
   }
 
-  margin-top: 20px;
+  margin-top: 30px;
   margin-bottom: 30px;
   margin-left: 20px;
 }
