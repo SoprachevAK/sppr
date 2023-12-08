@@ -1,0 +1,55 @@
+@mixin table($border-color, $border, $radius) {
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 350px;
+  text-align: center;
+
+  thead {
+    th {
+      border-top: $border;
+      border-bottom: 3px solid $border-color;
+    }
+  }
+
+  tr td,
+  th {
+    border-right: $border;
+    border-bottom: $border;
+    // padding: 8px;
+  }
+
+  tr th:first-child,
+  tr td:first-child {
+    border-left: $border;
+    border-right: 3px solid $border-color;
+  }
+
+  thead {
+    th:first-child {
+      border-top-left-radius: $radius;
+    }
+
+    tr:first-child th:last-child {
+      border-top-right-radius: $radius;
+    }
+  }
+
+  tbody {
+    tr:last-child *:first-child {
+      border-bottom-left-radius: $radius;
+    }
+
+    tr:last-child *:last-child {
+      border-bottom-right-radius: $radius;
+    }
+  }
+
+}
+
+@mixin table-oscillator {
+  tbody {
+    tr:nth-child(even) {
+      background-color: #393939;
+    }
+  }
+}
