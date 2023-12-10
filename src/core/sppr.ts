@@ -1,4 +1,4 @@
-import { toPlacedTableFormat, type InputTable, type Order, validateInputTable } from '.';
+import { toPlacedTableFormat, type InputTable, type Order, validateInputTable, calculatePlace } from '.';
 import { createBinaryRelationshipMatrix } from './createBinaryRelationshipMatrix';
 import { dominate } from './dominate';
 import { block } from './block';
@@ -42,7 +42,7 @@ export function sppr(table: InputTable) {
 
 
   const score = (place: number) => table.names.length - place
-  const finalResult = table.names
+  const scoreResult = table.names
     .map((_, i) => [
       score(dominateTableResult[i].place),
       score(blockTableResult[i].place),
@@ -52,8 +52,10 @@ export function sppr(table: InputTable) {
     ])
     .map(t => [...t, t.reduce((a, b) => a + b, 0)])
 
-  const max = Math.max(...finalResult.map(v => v[v.length - 1]))
-  const finalBestResult = finalResult.map(v => v[v.length - 1] == max)
+  const placed = calculatePlace(scoreResult, t => t[t.length - 1], (a, b) => b - a)
+  const finalResult = scoreResult.map((t, i) => [...t, placed.find(p => p.item == t)!.place + 1])
+
+  const finalBestResult = finalResult.map(v => v[v.length - 1] == 1)
 
   return {
     normalizedWeights,

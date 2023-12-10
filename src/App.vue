@@ -91,7 +91,7 @@
       <h2>Итоговый результат</h2>
       Бальная таблица
       <SubResultTable class="hro-table" :table="{
-        columnNames: ['Вариант', 'Дом', 'Блок', 'Тур', 'Sjp', 'Sjm', 'ИТОГО'],
+        columnNames: ['Вариант', 'Дом', 'Блок', 'Тур', 'Sjp', 'Sjm', 'ИТОГО', 'Место'],
         rowNames: table.names,
         matrix: finalResultTable,
         hightlight: finalBestResult
@@ -283,8 +283,8 @@ ul {
 .hro-table {
   table {
     thead {
-      th:not(:first-child):not(:last-child) {
-        min-width: 100px;
+      th:not(:first-child) {
+        min-width: 90px;
       }
     }
 

@@ -265,7 +265,7 @@ export function generateReport(table: InputTable, style: {
   l`По результатам всех механизмов, в зависимости от полученного места были начислены баллы каждому варианту`
 
   l`${generateTable([
-    ['Вариант', 'Дом', 'Блок', 'Тур', 'Sjp', 'Sjm', 'ИТОГО'],
+    ['Вариант', 'Дом', 'Блок', 'Тур', 'Sjp', 'Sjm', 'ИТОГО', 'Место'],
     ...finalResultTable.map((row, i) => ([
       b`${table.names[i]}`,
       ...row.map(v => v.toLocalFixed(2))
