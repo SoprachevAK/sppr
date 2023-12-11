@@ -1,10 +1,20 @@
-import type { InputTable, toPlacedTableFormat } from "@/core"
+import type { InputTable } from "@/core"
 import type { Ref } from "vue"
 
-export function useMarkdownExport(table: Ref<InputTable>) {
+export function useMarkdownExport(table: Ref<InputTable>, options: {
+  intermediateCalculation: Ref<boolean>,
+  intermediateResult: Ref<boolean>,
+  description: Ref<boolean>
+  matrixBR: Ref<boolean>
+}) {
   return {
     export: async () => {
-      const blob = new Blob([await createMarkdown(table.value)], { type: 'text/markdown' })
+      const mdText = await createMarkdown(table.value, {
+        intermediateCalculation: options.intermediateCalculation.value,
+        intermediateResult: options.intermediateResult.value,
+        description: options.description.value
+      })
+      const blob = new Blob([mdText], { type: 'text/markdown' })
       const url = URL.createObjectURL(blob)
 
       const link = document.createElement('a')
@@ -65,11 +75,14 @@ function code(strings: TemplateStringsArray, ...values: any[]) {
   return `\`${getString(strings, values)}\``
 }
 
-async function createMarkdown(table: InputTable) {
+async function createMarkdown(table: InputTable, options?: { intermediateCalculation?: boolean, intermediateResult?: boolean, description?: boolean }) {
   const { markdownTable } = await import('markdown-table')
   const { generateReport } = await import('./generateReport')
 
   return generateReport(table, {
-    h1, h2, h3, h4, b, code, list, generateTable: markdownTable
+    h1, h2, h3, h4, b, code, list, generateTable: markdownTable,
+    intermediateCalculation: options?.intermediateCalculation,
+    intermediateResult: options?.intermediateResult,
+    description: options?.description
   })
 }
