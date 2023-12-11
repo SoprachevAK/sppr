@@ -82,7 +82,6 @@ export function generateReport(table: InputTable, style: {
     ]
   }
 
-
   function tournamentBlockInfo(names: string[],
     criterias: string[],
     normalizedWeights: number[],
@@ -164,9 +163,9 @@ export function generateReport(table: InputTable, style: {
 
     l`${generateTable(
       [
-        ['', ...table.names.map((_, i) => b`${i}`)],
+        ['', ...table.names.map((_, i) => b`${i + 1}`)],
         ...matrix.map((row, i) => ([
-          b`${i}`,
+          b`${i + 1}`,
           ...row.map(v => v.toString())
         ]))
       ],
