@@ -122,7 +122,7 @@ export function generateReport(table: InputTable, style: {
 
             if (item.equal.length) {
               const target = b`${item.equal.map(i => names[i]).join(', ')}`
-              res += item.less.length ? style.nextLine`Симметрично c ${target}` : `симметрично c ${target}`
+              res += item.less.length ? style.nextLine`Симметрично c ${target} ` : `симметрично c ${target} `
               res += code`=> ${normalizedWeights[j].toLocalFixed(2)} / ${item.equal.length + 1} = ` + b`${code`${(normalizedWeights[j] / (item.equal.length + 1)).toLocalFixed(2)}`}`
             }
 
