@@ -103,6 +103,10 @@ function code(strings: TemplateStringsArray, ...values: any[]) {
   return `\\texttt{${getString(strings, values)}}`
 }
 
+function nextLine(strings: TemplateStringsArray, ...values: any[]) {
+  return `\\\\${getString(strings, values)}`
+}
+
 function generateTable(data: string[][], options?: { caption?: string, align?: string[], center?: boolean, notBoldHeader?: boolean }) {
   let res = ''
 
@@ -162,9 +166,9 @@ async function createLatex(table: InputTable, options: {
 
   const report = (options.exportPreamble ? preamble : '') +
     generateReport(table, {
-      h1, h2, h3, h4, b, code, generateTable,
+      h1, h2, h3, h4, b, code, generateTable, nextLine,
       list: (lines: List, opt?: { skipFirstStep?: boolean }) => list(lines, { ...opt, compact: options.compactLists }),
-      reportVatiant: 'latex',
+      reportVariant: 'latex',
       intermediateCalculation: options.intermediateCalculation,
       intermediateResult: options.intermediateResult,
       matrixBR: options.matrixBR,

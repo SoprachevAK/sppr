@@ -75,12 +75,17 @@ function code(strings: TemplateStringsArray, ...values: any[]) {
   return `\`${getString(strings, values)}\``
 }
 
+function nextLine(strings: TemplateStringsArray, ...values: any[]) {
+  return `; ${getString(strings, values)}`
+}
+
 async function createMarkdown(table: InputTable, options?: { intermediateCalculation?: boolean, intermediateResult?: boolean, description?: boolean }) {
   const { markdownTable } = await import('markdown-table')
   const { generateReport } = await import('./generateReport')
 
   return generateReport(table, {
-    h1, h2, h3, h4, b, code, list, generateTable: markdownTable,
+    h1, h2, h3, h4, b, code, list, generateTable: markdownTable, nextLine,
+    reportVariant: 'markdown',
     intermediateCalculation: options?.intermediateCalculation,
     intermediateResult: options?.intermediateResult,
     description: options?.description

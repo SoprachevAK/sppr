@@ -30,7 +30,8 @@
 
       <Collapsable name="Матрицы БО" header-variant="h2">
         <div class="bo-list">
-          <BinaryRelationshipCard v-for="(item, i) in binaryRelationship" :BRMatrix="item" :title="table.criterias[i]" />
+          <BinaryRelationshipCard v-for="(item, i) in binaryRelationship" :BRMatrix="item"
+            :title="table.criterias[i]" />
         </div>
       </Collapsable>
 
@@ -141,6 +142,9 @@
         <span v-if="latexCompactList">, для работы компактных списков нужен <code>\usepackage{enumitem}</code></span>
       </p>
 
+      <h3>Typst</h3>
+      <p>Подробнее тут: <a href="https://typst.app/" target="_blank" rel="noopener noreferrer">typst.app</a></p>
+      <button class="report-export" @click="typstExport">Скачать в Typst формате</button>
 
     </template>
 
@@ -165,6 +169,7 @@ import DetailedInfo from './components/DetailedInfo.vue';
 import { useImportExport } from './composition/useImportExport';
 import { useMarkdownExport } from './composition/useMarkdownExport';
 import { useLatexExport } from './composition/useLatexExport';
+import { useTypstExport } from './composition/useTypstExport';
 
 import { type InputTable, validateInputTable } from './core';
 import { sppr } from './core/sppr';
@@ -200,6 +205,7 @@ const latexExportPreamble = useLocalStorage('latexExportPreambula', true)
 
 const { export: mdExport } = useMarkdownExport(table, { intermediateCalculation, intermediateResult, matrixBR, description })
 const { export: latexExport } = useLatexExport(table, { intermediateCalculation, intermediateResult, matrixBR, description, compactLists: latexCompactList, exportPreamble: latexExportPreamble })
+const { export: typstExport } = useTypstExport(table, { intermediateCalculation, intermediateResult, matrixBR, description })
 
 const spprRes = spprReactive(table)
 
@@ -361,6 +367,3 @@ ul {
   border-radius: 10px;
 }
 </style>
-
-
-

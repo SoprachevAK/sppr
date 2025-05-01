@@ -10,6 +10,7 @@ export function generateReport(table: InputTable, style: {
   h2: (strings: TemplateStringsArray, ...values: any[]) => string,
   h3: (strings: TemplateStringsArray, ...values: any[]) => string,
   h4: (strings: TemplateStringsArray, ...values: any[]) => string,
+  nextLine: (strings: TemplateStringsArray, ...values: any[]) => string,
   generateTable: (data: any[][], options?: {
     align?: ('l' | 'c' | 'r' | string)[],
     caption?: string,
@@ -19,11 +20,12 @@ export function generateReport(table: InputTable, style: {
   b: (strings: TemplateStringsArray, ...values: any[]) => string,
   code: (strings: TemplateStringsArray, ...values: any[]) => string,
   list: (items: List, options?: { skipFirstStep?: boolean }) => string,
+  postProcessor?: (text: string) => string,
   intermediateResult?: boolean,
   intermediateCalculation?: boolean,
   matrixBR?: boolean,
   description?: boolean,
-  reportVatiant?: 'markdown' | 'latex',
+  reportVariant?: 'markdown' | 'latex' | 'typst',
 }) {
   const {
     normalizedWeights,
@@ -45,7 +47,15 @@ export function generateReport(table: InputTable, style: {
   const showIntermediateSteps = intermediateCalculation || intermediateResult
 
   let res = ''
-  const l = (strings: TemplateStringsArray, ...values: any[]) => res += `${String.raw({ raw: strings }, ...values)}\n\n`
+  const l = (strings: TemplateStringsArray, ...values: any[]) => {
+    const target = String.raw({ raw: strings }, ...values)
+    if (target.startsWith('..\n')) {
+      if (target.endsWith('\n')) res = res.slice(0, -1)
+      res += target.slice(3)
+    }
+    else
+      res += `${target}\n\n`
+  }
 
 
   function domBlockInfo(names: string[],
@@ -111,7 +121,8 @@ export function generateReport(table: InputTable, style: {
             }
 
             if (item.equal.length) {
-              res += (style.reportVatiant == 'latex' ? '\\\\' : `;`) + `Симметрично c ${b`${item.equal.map(i => names[i]).join(', ')}`} `
+              const target = b`${item.equal.map(i => names[i]).join(', ')}`
+              res += item.less.length ? style.nextLine`Симметрично c ${target}` : `симметрично c ${target}`
               res += code`=> ${normalizedWeights[j].toLocalFixed(2)} / ${item.equal.length + 1} = ` + b`${code`${(normalizedWeights[j] / (item.equal.length + 1)).toLocalFixed(2)}`}`
             }
 
@@ -170,7 +181,7 @@ export function generateReport(table: InputTable, style: {
   if (matrixBR) {
     l`${h3`Матрицы бинарных отношений`}`
     binaryRelationship.forEach((matrix, i) => {
-      if (style.reportVatiant != 'latex')
+      if (style.reportVariant == 'markdown')
         l`${h4`${table.criterias[i]}`}`
 
       l`${generateTable(
@@ -227,13 +238,15 @@ export function generateReport(table: InputTable, style: {
 
     l`${h3`Механизм K-max`}`
 
+    const nl = style.nextLine
+
     if (intermediateCalculation)
       table.criterias.forEach((criteria, i) => {
-        if (style.reportVatiant != 'latex') l`${h4`${criteria}`}`
+        if (style.reportVariant == 'markdown') l`${h4`${criteria}`}`
         l`${generateTable(
           [
-            style.reportVatiant == 'latex' ?
-              ['', 'HRo+\\\\ER+\\\\NR', 'HRo+\\\\NR', 'HRo+\\\\ER', 'HRo', 'Sjp', 'Sjm'] :
+            style.reportVariant != 'markdown' ?
+              ['', 'HRo+' + nl`ER+` + nl`NR`, 'HRo+' + nl`NR`, 'HRo+' + nl`ER`, 'HRo', 'Sjp', 'Sjm'] :
               ['', 'HRo+ER+NR', 'HRo+NR', 'HRo+ER', 'HRo', 'Sjp', 'Sjm'],
             ...table.names.map((name, j) => ([
               b`${name}`,
@@ -248,7 +261,7 @@ export function generateReport(table: InputTable, style: {
 
 
     if (intermediateResult)
-      if (style.reportVatiant != 'latex') {
+      if (style.reportVariant == 'markdown') {
         l`${h4`Итого`}`
 
         l`${generateTable([
@@ -305,5 +318,6 @@ export function generateReport(table: InputTable, style: {
   const bestIndex = finalBestResult.indexOf(true)
   l`Максимальную сумму баллов набрал вариант ${b`${table.names[bestIndex]}`} с суммой ${b`${finalResultTable[bestIndex][5].toLocalFixed(2)}`} баллов`
 
+  if (style.postProcessor) return style.postProcessor(res)
   return res
 }
