@@ -1,7 +1,8 @@
 #!/bin/bash
 
 npm run build
-aws --endpoint-url=https://storage.yandexcloud.net/ \
-  s3 cp dist s3://sppr.soprachev.com/ \
-  --recursive \
-  --cache-control 'max-age=864000'
+aws s3 sync ./dist s3://sppr.soprachev.com \
+  --cache-control "max-age=864000, public" \
+  --endpoint-url=https://storage.yandexcloud.net/ \
+  --delete \
+  --profile soprachev-com
